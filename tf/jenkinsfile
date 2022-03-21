@@ -1,0 +1,22 @@
+pipeline{
+
+    agent any
+
+    stage('Checkout'){
+        steps{
+            sh """
+            git clone https://github.com/JKanczura/node-lambda.git
+            cd tf
+            """
+        }
+    }
+
+    stage('Terraform'){
+        steps{
+            container('terraform'){
+                sh 'terraform init'
+                sh 'terraform plan -out myplan'
+            }
+        }
+    }
+}
